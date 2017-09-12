@@ -22,7 +22,7 @@ public class Profile {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.profile);
+            setContentView(R.layout.activity_profile);
 
             ImageView profileImageView = (ImageView) findViewById(R.id.profile_image);
             TextView userNameTextView = (TextView) findViewById(R.id.username);
