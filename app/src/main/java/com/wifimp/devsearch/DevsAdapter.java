@@ -20,32 +20,33 @@ import java.util.List;
 
 public class DevsAdapter extends RecyclerView.Adapter<DevsAdapter.ViewHolder> {
 
+    public static final String KEY_NAME = "name";
+    public static final String KEY_IMAGE = "image";
+    public static final String KEY_URL = "url";
 
-        public static final String KEY_NAME = "name";
-        public static final String KEY_IMAGE = "image";
-        public static final String KEY_URL = "url";
+    // here we define a list from the DevsList java class
+    private List<DevsList> devsLists;
+    private Context context;
 
-        private List<DevsList> devsLists;
-        private Context context;
+    public DevsAdapter(List<DevsList> devsLists, Context context) {
 
-        public DevsAdapter(List<DevsList> devsLists, Context context) {
-
-            this.devsLists = devsLists;
-            this.context = context;
-        }
+        // this generate constructors to initialise the List and Context objects
+        this.devsLists = devsLists;
+        this.context = context;
+    }
 
     @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.devs_list,parent,false);
-
+        // this method is called whenever our ViewHolder is created
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.devs_list, parent, false);
         return new ViewHolder(v);
     }
 
-
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position){
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+
+    // this method is use to bind the data to the ViewHolder from where it'll be shown to other Views
 
         final DevsList devsList = devsLists.get(position);
         holder.login.setText(devsList.getLogin());
@@ -55,46 +56,57 @@ public class DevsAdapter extends RecyclerView.Adapter<DevsAdapter.ViewHolder> {
                 .into(holder.avatar_url);
 
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-                                                   @Override
-                                                   public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
+                DevsList devsList1 = devsLists.get(position);
+                Intent ProfileIntent = new Intent(v.getContext(), ProfileActivity.class);
+                ProfileIntent.putExtra(KEY_NAME, devsList1.getLogin());
+                ProfileIntent.putExtra(KEY_URL, devsList1.getHtml_url());
+                ProfileIntent.putExtra(KEY_IMAGE, devsList1.getAvatar_url());
 
-                                                       DevsList devsList1 = devsLists.get(position);
-
-                                                       Intent ProfileIntent = new Intent(v.getContext(), ProfileActivity.class);
-                                                       ProfileIntent.putExtra(KEY_NAME, devsList1.getLogin());
-                                                       ProfileIntent.putExtra(KEY_URL, devsList1.getHtml_url());
-                                                       ProfileIntent.putExtra(KEY_IMAGE, devsList1.getAvatar_url());
-
-                                                       v.getContext().startActivity(ProfileIntent);
-
-
-                                                   }
-                                               });
-
+                v.getContext().startActivity(ProfileIntent);
+            }
+        });
     }
 
     @Override
-    public int getItemCount(){
+
+    // this return the size of the listItems (devsList)
+
+    public int getItemCount() {
         return devsLists.size();
     }
 
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    /**
+     * define the View objects for
+     * login
+     * avatar
+     * html url
+     * linearLayout
+    */
 
         public TextView login;
         public ImageView avatar_url;
         public TextView html_url;
         public LinearLayout linearLayout;
 
-        public ViewHolder(View itemView){
-
+        public ViewHolder(View itemView) {
             super(itemView);
 
+
+    /**
+     * then we initialize the View objects
+     * login
+     * avatar
+     * html url
+     * linearLayout
+     **/
             login = (TextView) itemView.findViewById(R.id.user_name);
             avatar_url = (ImageView) itemView.findViewById(R.id.image_view);
-            html_url = (TextView)itemView.findViewById(R.id.html_url);
-            linearLayout = (LinearLayout)itemView.findViewById(R.id.linear_layout);
+            html_url = (TextView) itemView.findViewById(R.id.html_url);
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.linear_layout);
         }
     }
 }

@@ -29,12 +29,10 @@ public class Profile {
             ImageButton shareProfile = (ImageButton) findViewById(R.id.share);
             TextView developerUrl = (TextView) findViewById(R.id.devs_url);
 
-
             Intent intent = getIntent();
             final String userName = intent.getStringExtra(DevsAdapter.KEY_NAME);
             String image = intent.getStringExtra(DevsAdapter.KEY_IMAGE);
             final String profileUrl = intent.getStringExtra(DevsAdapter.KEY_URL);
-
 
             Picasso.with(this)
                     .load(image)

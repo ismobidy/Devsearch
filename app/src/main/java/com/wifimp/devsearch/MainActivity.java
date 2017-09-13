@@ -22,8 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String URL_DATA = "https://api.github.com/search/users?q=language:java+location:lagos";
 
+    private static final String URL_DATA = "https://api.github.com/search/users?q=language:java+location:lagos";
+    /**
+     * he we define the recyclerView,
+     * the recyclerView adapter class,
+     * and the list from Devlist.
+    */
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<DevsList> devsLists;
@@ -33,17 +38,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //here we set up the recyclerView.
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         devsLists = new ArrayList<>();
 
+        //we call the loadUrl method here.
         loadUrlData();
     }
 
-
-
+    // we define the loadUrl method here, which in turn calls the api for the json data.
     private void loadUrlData(){
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -57,17 +63,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 progressDialog.dismiss();
 
-
-
                 try {
-
                     JSONObject jsonObject = new JSONObject(response);
-
                     JSONArray array = jsonObject.getJSONArray("items");
-
-
-//
-//                    JSONArray array = jsonObject.getJSONObject("items");
 
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject jo = array.getJSONObject(i);
@@ -75,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                         DevsList devs = new DevsList(jo.getString("login"),
                                 jo.getString("html_url"), jo.getString("avatar_url"));
                         devsLists.add(devs);
-
                     }
 
                     adapter = new DevsAdapter(devsLists, getApplicationContext());
@@ -96,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
     });
-
-
+        // the requestQueue is defined here.
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }

@@ -18,17 +18,20 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        // we initialize the View objects here.
         ImageView profileImageView = (ImageView) findViewById(R.id.profile_image);
         TextView userNameTextView = (TextView) findViewById(R.id.username);
         ImageButton shareProfile = (ImageButton) findViewById(R.id.share);
         TextView developerUrl = (TextView) findViewById(R.id.devs_url);
 
+        //getting the passed intent
 
         Intent intent = getIntent();
         final String userName = intent.getStringExtra(DevsAdapter.KEY_NAME);
         String image = intent.getStringExtra(DevsAdapter.KEY_IMAGE);
         final String profileUrl = intent.getStringExtra(DevsAdapter.KEY_URL);
 
+        //here we use picasso to load images into the defined imageView
 
         Picasso.with(this)
                 .load(image)
@@ -41,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //here we set-up the onclick function of the profile url.
                 String url = profileUrl;
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
@@ -48,45 +52,21 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-//setting the share intent for the profile
+        // this method is use for setting the share intent for the profile.
         shareProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this awesome developer "
-                        + userName +
-                        ", " + profileUrl);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this awesome developer " + userName + ", " + profileUrl);
                 Intent chooser = Intent.createChooser(shareIntent, "Share via");
                 if (shareIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(chooser);
                 }
             }
         });
-
-
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//
-//        getMenuInflater().inflate(R.menu.main_menu, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected (MenuItem item){
-//
-//        if (item.getItemId() == R.id.action_add) {
-//
-//            startActivity(new Intent(ProfileActivity.this, MainActivity.class));
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-
 }
 
 
