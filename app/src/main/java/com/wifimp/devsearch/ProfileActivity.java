@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+/**
+ * Created by ismob on 9/9/2017.
+ */
+
 public class ProfileActivity extends AppCompatActivity {
 
     @Override
